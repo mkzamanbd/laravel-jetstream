@@ -15,10 +15,7 @@ class PHPSpreadsheetController extends Controller
 {
     public function index()
     {
-        $exampleExcelFile = asset('docs/data.xlsx');
-        return Inertia::render('Excel/Import', [
-            'exampleExcelFile' => $exampleExcelFile
-        ]);
+        return Inertia::render('Excel/Import');
     }
 
     public function preview(Request $request)
@@ -30,7 +27,7 @@ class PHPSpreadsheetController extends Controller
             $path = "docs/" . $file_name;
             $base64 = file_get_contents($request->base64_excel_file);
             Storage::put($path, $base64);
-            $name = Storage::url($path);
+            $name = storage_path('app/public/' .$path);
         }
         else {
             $name = public_path('docs/data.xlsx');
@@ -68,10 +65,10 @@ class PHPSpreadsheetController extends Controller
             return $item;
         }, $data);
 
-        ($request->file('file')) && Storage::disk('public')->exists($path) ? Storage::disk('public')->delete($path) : '';
+        ($request->base64_excel_file) && Storage::disk('public')->exists($path) ? Storage::disk('public')->delete($path) : '';
         // return $data;
         return Inertia::render('Excel/Import', [
-            'data' => $data
+            'preview_data' => $data
         ]);
     }
 
@@ -94,7 +91,9 @@ class PHPSpreadsheetController extends Controller
     public function show()
     {
         $asses = Asses::all();
-        return view('excel-export', compact('asses'));
+        return Inertia::render('Excel/Export',[
+            'asses_list' => $asses
+        ]);
     }
 
     public function export(Request $request)
@@ -137,7 +136,7 @@ class PHPSpreadsheetController extends Controller
 
         // create xlsx file
         $writer = new Xlsx($spreadsheet);
-        $path = public_path('data/Assessees-list-' . time().'.xlsx');
+        $path = public_path('data/list-' . time().'.xlsx');
         $writer->save($path);
         return response()->download($path);
     }
