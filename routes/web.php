@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\PHPSpreadsheetController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -27,3 +28,22 @@ Route::get('/', function () {
 Route::middleware(['auth:sanctum', 'verified'])->get('/dashboard', function () {
     return Inertia::render('Dashboard');
 })->name('dashboard');
+
+
+Route::get('upload-excel', [PHPSpreadsheetController::class, 'index'])
+    ->middleware(['auth'])
+    ->name('upload-excel');
+
+Route::post('upload-excel', [PHPSpreadsheetController::class, 'preview'])
+    ->middleware(['auth']);
+
+Route::post('upload-confirm', [PHPSpreadsheetController::class, 'store'])
+    ->middleware(['auth'])
+    ->name('upload-confirm');
+
+Route::get('export-excel', [PHPSpreadsheetController::class, 'show'])
+    ->middleware(['auth'])
+    ->name('export-excel');
+
+Route::post('export-excel', [PHPSpreadsheetController::class, 'export'])
+    ->middleware(['auth']);

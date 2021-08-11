@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\User;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
@@ -13,6 +14,21 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        // \App\Models\User::factory(10)->create();
+        User::factory(20)->create();
+        $user = User::whereEmail('zaman7u@gmail.com')->first();
+        if(!$user){
+            $user = new User();
+            $user->name = 'Zaman';
+            $user->email = 'zaman7u@gmail.com';
+            $user->username = 'zaman';
+            $user->password = bcrypt('12345678');
+            $user->save();
+        }
+        $this->call(CategorySeeder::class);
+        $this->call(TagSeeder::class);
+        $this->call(PostSeeder::class);
+        $this->call(PostTagSeeder::class);
+        $this->call(CommentSeeder::class);
+        $this->call(ChatSeeder::class);
     }
 }
