@@ -122,12 +122,13 @@
         components: {
             AppLayout
         },
-        mounted(){
-            console.log(this.asses_list)
-        },
         methods:{
             downloadExcel(){
-                this.$inertia.post(route('download-excel'))
+                this.$inertia.post(route('download-excel'),{
+                    onSuccess: (response) =>{
+                        console.log(response)
+                    }
+                })
             }
         }
     }

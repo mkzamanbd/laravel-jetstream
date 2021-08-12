@@ -10,6 +10,7 @@ use PhpOffice\PhpSpreadsheet\Spreadsheet;
 use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
 use Illuminate\Support\Facades\Storage;
 use Inertia\Inertia;
+use Illuminate\Support\Str;
 
 class PHPSpreadsheetController extends Controller
 {
@@ -119,7 +120,7 @@ class PHPSpreadsheetController extends Controller
                 'e_tin'          => $row->e_tin,
                 'tin_date'       => date("d/m/Y", strtotime($row->tin_date)),
                 'asses_name'     => $row->asses_name,
-                'mobile'         => $row->mobile,
+                'mobile'         => $row->mobile ? Str::substr($row->mobile, -11) : '',
                 'address'        => $row->address,
                 'police_station' => $row->police_station,
                 'old_tin'        => $row->old_tin,
@@ -136,8 +137,16 @@ class PHPSpreadsheetController extends Controller
 
         // create xlsx file
         $writer = new Xlsx($spreadsheet);
-        $path = public_path('excel/list-' . time().'.xlsx');
+        $name = 'export-excel/sheet-'.time().'.xlsx';
+        $path = storage_path('app/public/'.$name);
+
+        if(!Storage::exists('export-excel')){
+            Storage::makeDirectory('export-excel', 0777, true);
+        }
         $writer->save($path);
-        return "<a href='$path'>$path</a>";
+        return Inertia::render('Excel/Download',[
+            'message' => 'Data successfully exported and generate excel file. Click download link.',
+            'url' => Storage::url($name)
+        ]);
     }
 }
