@@ -136,8 +136,8 @@ class PHPSpreadsheetController extends Controller
 
         // create xlsx file
         $writer = new Xlsx($spreadsheet);
-        $path = public_path('data/list-' . time().'.xlsx');
+        $path = public_path('excel/list-' . time().'.xlsx');
         $writer->save($path);
-        return response()->download($path);
+        return "<a href='$path'>$path</a>";
     }
 }

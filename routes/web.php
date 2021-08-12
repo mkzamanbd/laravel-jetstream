@@ -47,4 +47,5 @@ Route::get('export-excel', [PHPSpreadsheetController::class, 'show'])
     ->name('export-excel');
 
 Route::post('export-excel', [PHPSpreadsheetController::class, 'export'])
-    ->middleware(['auth']);
+    ->middleware(['auth'])
+    ->name('download-excel');
