@@ -35,7 +35,8 @@ Route::get('upload-excel', [PHPSpreadsheetController::class, 'index'])
     ->name('upload-excel');
 
 Route::post('upload-excel', [PHPSpreadsheetController::class, 'preview'])
-    ->middleware(['auth']);
+    ->middleware(['auth'])
+    ->name('upload-excel');
 
 Route::post('upload-confirm', [PHPSpreadsheetController::class, 'store'])
     ->middleware(['auth'])

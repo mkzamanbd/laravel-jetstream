@@ -55,7 +55,7 @@
                                         </form> -->
                                         <table class="w-full divide-y divide-gray-200">
                                             <thead class="bg-gray-200 text-black">
-                                                <tr class="border-b border-gray-200 hover:bg-gray-100">
+                                                <tr class="border-b border-gray-200">
                                                     <th class="text-left px-2 py-1 text-sm border-2 border-left border-gray-200">
                                                         SL
                                                     </th>
@@ -81,7 +81,7 @@
                                             <tbody class="bg-white divide-y divide-gray-300">
                                                 <tr v-for="(item, index) in asses_list" :key="index" class="border-b border-gray-200 hover:bg-gray-100">
                                                     <td class="px-2 py-1 whitespace-nowrap text-sm border-2 border-left border-gray-200">
-                                                        {{ index + 1 }}.
+                                                        {{ index + 1 }}
                                                     </td>
                                                     <td class="px-2 py-1 text-left whitespace-nowrap text-sm border-2 border-left border-gray-200">
                                                         {{ item.e_tin }}
@@ -93,7 +93,7 @@
                                                         {{ item.asses_name }}
                                                     </td>
                                                     <td class="px-2 py-1 text-left whitespace-nowrap text-sm border-2 border-left border-gray-200">
-                                                        {{ item.mobile }}
+                                                        {{ item.mobile || 'N/A' }}
                                                     </td>
                                                     <td class="px-2 py-1 text-left whitespace-nowrap text-sm border-2 border-left border-gray-200">
                                                         {{ item.address }}
@@ -127,7 +127,7 @@
             AppLayout
         },
         mounted(){
-            console.log(this.$page.props.asses_list)
+            console.log(this.asses_list)
         },
         methods:{}
     }
