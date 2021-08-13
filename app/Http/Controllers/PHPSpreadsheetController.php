@@ -89,9 +89,13 @@ class PHPSpreadsheetController extends Controller
         return back()->with("success", "Data Successfully Imported");
     }
 
-    public function show()
+    public function show(Request $request)
     {
-        $asses = Asses::all();
+        $asses = Asses::paginate(50);
+        if($request->wantsJson()){
+            return $asses;
+        }
+
         return Inertia::render('Excel/Export',[
             'asses_list' => $asses
         ]);
